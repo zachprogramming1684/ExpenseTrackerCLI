@@ -1,1 +1,1 @@
-#Expense Tracker CLI Application
+# Expense Tracker CLI Application
