@@ -53,4 +53,5 @@ public class Expense
         return id + "," + description + "," + amount + "," + date.toString();
     }
 
+    public String toString(){return "ID: " + id + " || Description: " + description + " || Amount: $" + amount + " || Date: " + date.toString();}
 }
