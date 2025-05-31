@@ -32,25 +32,75 @@ public class ExpenseTrackerApp
         ArrayList of all expenses will be initialized in main method and passed into functions that require it
      */
 
-    public static void main (String[] args) throws FileNotFoundException
+    public static void main (String[] args)
     {
-        ArrayList<Expense> allExpenses = new ArrayList<>();
-        File f = new File("expenses.csv");
-        FileOutputStream fos = new FileOutputStream("expenses.csv", true);
-        Scanner in = new Scanner(f);
-        PrintWriter out = new PrintWriter(fos);
-        LocalDate newDate = LocalDate.now();
-
-        while (in.hasNextLine())
+        try
         {
-            String line = in.nextLine();
-            String[] tokens = line.split(",");
-            Expense temp = new Expense(Integer.parseInt(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), LocalDate.parse(tokens[3]));
-            allExpenses.add(temp);
+            ArrayList<Expense> allExpenses = new ArrayList<>();
+            File f = new File("expenses.csv");
+            FileOutputStream fos = new FileOutputStream("expenses.csv", true);
+            Scanner in = new Scanner(f);
+            PrintWriter out = new PrintWriter(fos);
+            LocalDate newDate = LocalDate.now();
+            int idCounter = 0;
+
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                String[] tokens = line.split(",");
+                Expense temp = new Expense(Integer.parseInt(tokens[0]), tokens[1], Double.parseDouble(tokens[2]), LocalDate.parse(tokens[3]));
+                allExpenses.add(temp);
+                idCounter++;
+            }
+
+            for (Expense e : allExpenses) {
+                if (e.getId() - idCounter > 0) {
+                    idCounter++;
+                }
+            }
+
+            switch(args[0])
+            {
+                case "add":
+                    addExpense(out, idCounter, args[1], Double.parseDouble(args[2]), newDate);
+                    System.out.println("Expense added successfully (ID: " + idCounter + ")");
+                    break;
+                case "update":
+                    updateExpense(out, Integer.parseInt(args[1]), allExpenses, args[2], idCounter);
+                    break;
+                case "delete":
+                    deleteExpense(out, Integer.parseInt(args[1]), allExpenses, idCounter);
+                    break;
+                case "list":
+                    printExpenses(allExpenses);
+                    break;
+                case "summary":
+
+                default:
+                    System.out.println("Unknown command");
+
+            }
+
+            System.out.println(idCounter);
+
+            out.close();
+
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("Error editing or creating file");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error. Please ensure all parameters are valid and correct.");
         }
 
 
-        out.close();
+
+
+
+
+
+
     }
 
     //Done I think
@@ -61,40 +111,54 @@ public class ExpenseTrackerApp
         out.flush();
     }
 
-    public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc) throws FileNotFoundException
+    public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc, int idCount) throws FileNotFoundException
     {
-        FileOutputStream fos = new FileOutputStream("expenses.csv", false);
-        for(Expense e : allExpenses)
+        // TODO: Fix conditional logic for checking if expense exists
+        if(!allExpenses.isEmpty() && (id - idCount) > 0)
         {
-            if(e.getId() == id)
+            FileOutputStream fos = new FileOutputStream("expenses.csv", false);
+            for (Expense e : allExpenses)
             {
-                e.setDescription(desc);
-                break;
+                if (e.getId() == id)
+                {
+                    e.setDescription(desc);
+                    break;
+                }
             }
+            for (Expense e : allExpenses)
+            {
+                out.println(e.toCSV());
+            }
+            System.out.println("Expense updated successfully.");
         }
-        for(Expense e : allExpenses)
+        else
         {
-            out.println(e.toCSV());
+            System.out.println("No expenses found");
         }
         out.flush();
     }
 
-    public static void deleteExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses) throws FileNotFoundException
+    public static void deleteExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, int idCount) throws FileNotFoundException
     {
-        FileOutputStream fos = new FileOutputStream("expenses.csv", false);
-        Expense toDelete = null;
-        for(Expense e : allExpenses)
-        {
-            if(e.getId() == id)
-            {
-                toDelete = e;
-                break;
+        // TODO: Fix conditional logic for checking if expense exists
+        if(!allExpenses.isEmpty() && (id - idCount) > 0) {
+            FileOutputStream fos = new FileOutputStream("expenses.csv", false);
+            Expense toDelete = null;
+            for (Expense e : allExpenses) {
+                if (e.getId() == id) {
+                    toDelete = e;
+                    break;
+                }
             }
+            allExpenses.remove(toDelete);
+            for (Expense e : allExpenses) {
+                out.println(e.toCSV());
+            }
+            System.out.println("Expense deleted successfully.");
         }
-        allExpenses.remove(toDelete);
-        for(Expense e : allExpenses)
+        else
         {
-            out.println(e.toCSV());
+            System.out.println("No expenses found");
         }
         out.flush();
     }
