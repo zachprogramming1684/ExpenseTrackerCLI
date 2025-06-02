@@ -42,7 +42,7 @@ public class ExpenseTrackerApp
             Scanner in = new Scanner(f);
             PrintWriter out = new PrintWriter(fos);
             LocalDate newDate = LocalDate.now();
-            int idCounter = 0;
+            int idCounter = 1;
 
             while (in.hasNextLine()) {
                 String line = in.nextLine();
@@ -74,7 +74,8 @@ public class ExpenseTrackerApp
                     printExpenses(allExpenses);
                     break;
                 case "summary":
-
+                    printTotals(allExpenses);
+                    break;
                 default:
                     System.out.println("Unknown command");
 
@@ -94,13 +95,6 @@ public class ExpenseTrackerApp
             System.out.println("Error. Please ensure all parameters are valid and correct.");
         }
 
-
-
-
-
-
-
-
     }
 
     //Done I think
@@ -113,8 +107,8 @@ public class ExpenseTrackerApp
 
     public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc, int idCount) throws FileNotFoundException
     {
-        // TODO: Fix conditional logic for checking if expense exists
-        if(!allExpenses.isEmpty() && (id - idCount) > 0)
+        // TODO: double confirm new logic works
+        if(!allExpenses.isEmpty() && id < idCount)
         {
             FileOutputStream fos = new FileOutputStream("expenses.csv", false);
             for (Expense e : allExpenses)
@@ -140,8 +134,8 @@ public class ExpenseTrackerApp
 
     public static void deleteExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, int idCount) throws FileNotFoundException
     {
-        // TODO: Fix conditional logic for checking if expense exists
-        if(!allExpenses.isEmpty() && (id - idCount) > 0) {
+        // TODO: double confirm new logic works
+        if(!allExpenses.isEmpty() && id < idCount) {
             FileOutputStream fos = new FileOutputStream("expenses.csv", false);
             Expense toDelete = null;
             for (Expense e : allExpenses) {
@@ -179,6 +173,5 @@ public class ExpenseTrackerApp
         }
         System.out.println("Total: $" + total);
     }
-
 
 }
