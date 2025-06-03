@@ -82,11 +82,7 @@ public class ExpenseTrackerApp
                     System.out.println("Unknown command");
 
             }
-
-            System.out.println(idCounter);
-
             out.close();
-
         }
         catch(FileNotFoundException e)
         {
