@@ -19,3 +19,27 @@ This is a simple Command Line Interface Application for keeping track of expense
    ```
    java ExpenseTrackerApp <your argument(s)>
    ```
+## Usage
+1. Add an expense
+   ```
+      java ExpenseTrackerApp add "milk from the store" 4.99
+      Output: Expense added successfully (ID: 1)
+   ```
+2. Delete an expense
+   ```
+      java ExpenseTrackerApp delete 1
+      Output: Expense deleted successfully
+   ```
+3. Update an expense
+   ```
+      java ExpenseTrackerApp update 1 "bananas from the store" 2.99
+      Output: Expense updated successfully
+   ```
+4. List all expenses
+   ```
+      java ExpenseTrackerApp list
+   ```
+5. List total cost of all expenses
+   ```
+      java ExpenseTrackerApp summary
+   ```
