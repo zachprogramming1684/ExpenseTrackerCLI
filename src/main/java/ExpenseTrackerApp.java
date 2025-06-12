@@ -41,7 +41,7 @@ public class ExpenseTrackerApp
                     System.out.println("Expense added successfully (ID: " + idCounter + ")");
                     break;
                 case "update":
-                    updateExpense(out, Integer.parseInt(args[1]), allExpenses, args[2], idCounter);
+                    updateExpense(out, Integer.parseInt(args[1]), allExpenses, args[2], Double.parseDouble(args[3]), idCounter);
                     break;
                 case "delete":
                     deleteExpense(out, Integer.parseInt(args[1]), allExpenses, idCounter);
@@ -76,7 +76,7 @@ public class ExpenseTrackerApp
         out.flush();
     }
 
-    public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc, int idCount) throws FileNotFoundException
+    public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc, double newAmount, int idCount) throws FileNotFoundException
     {
 
         if(!allExpenses.isEmpty() && id < idCount)
@@ -87,6 +87,7 @@ public class ExpenseTrackerApp
                 if (e.getId() == id)
                 {
                     e.setDescription(desc);
+                    e.setAmount(newAmount);
                     break;
                 }
             }
