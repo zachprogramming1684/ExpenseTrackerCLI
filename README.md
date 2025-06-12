@@ -43,3 +43,7 @@ This is a simple Command Line Interface Application for keeping track of expense
    ```
       java ExpenseTrackerApp summary
    ```
+
+
+   Submitted for roadmap.sh with some minor changes
+   https://roadmap.sh/projects/expense-tracker
