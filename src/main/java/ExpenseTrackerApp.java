@@ -8,32 +8,6 @@ import java.util.Scanner;
 
 public class ExpenseTrackerApp
 {
-    /*
-        Features:
-        - Add an expense with description and amount
-        - Update an expense with a new description
-        - Delete an expense
-        - View all expenses
-        - View summary of expenses (total amount)
-        - View summary of expenses from a specific month (of current year)
-
-        Order of Operations:
-        - Create methods
-            -- Add expense (done I think)
-            -- Update expense (done I think)
-            -- Delete expense (done I think)
-            -- Print all expenses (done I think)
-            -- Print summary of expenses (total amount) (done I think)
-            -- View summary of expenses from a specific month of current year (do this later)
-        - Create file I/O in main method
-        - Create switch statement for getting desired operation
-        - Create try catches for ensuring input is good
-
-        ArrayList of all expenses will be initialized in main method and passed into functions that require it
-
-        test
-     */
-
     public static void main (String[] args)
     {
         try
@@ -95,7 +69,6 @@ public class ExpenseTrackerApp
 
     }
 
-    //Done I think
     public static void addExpense(PrintWriter out, int id, String desc, double amount, LocalDate newDate)
     {
         Expense e = new Expense(id, desc, amount, newDate);
@@ -105,7 +78,7 @@ public class ExpenseTrackerApp
 
     public static void updateExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, String desc, int idCount) throws FileNotFoundException
     {
-        // TODO: double confirm new logic works
+
         if(!allExpenses.isEmpty() && id < idCount)
         {
             FileOutputStream fos = new FileOutputStream("expenses.csv", false);
@@ -132,7 +105,7 @@ public class ExpenseTrackerApp
 
     public static void deleteExpense(PrintWriter out, int id, ArrayList<Expense> allExpenses, int idCount) throws FileNotFoundException
     {
-        // TODO: double confirm new logic works
+
         if(!allExpenses.isEmpty() && id < idCount) {
             FileOutputStream fos = new FileOutputStream("expenses.csv", false);
             Expense toDelete = null;
